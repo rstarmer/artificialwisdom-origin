@@ -86,12 +86,23 @@ source "virtualbox-iso" "base-debian-amd64" {
 build {
   sources = ["source.virtualbox-iso.base-debian-amd64"]
 
-  provisioner "ansible" {
-    playbook_file = "./provisioners/01_update_packer_user/packer.yml"
-    ansible_ssh_extra_args = [
-      "-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=ssh-rsa"
-    ]
-    use_sftp = true
-    user = "packer"
+  provisioner "file" {
+    source = "provisioners/00_file/artificialwisdom_cloud.tar.gz"
+    destination = "/tmp/artificialwisdom_cloud.tar.gz"
   }
+
+  provisioner "shell" {
+    inline = [
+      "cd / && tar xf /tmp/artificialwisdom_cloud.tar.gz"
+    ]
+  }
+
+#  provisioner "ansible" {
+#    playbook_file = "./provisioners/01_update_packer_user/packer.yml"
+#    ansible_ssh_extra_args = [
+#      "-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=ssh-rsa"
+#    ]
+#    use_sftp = true
+#    user = "packer"
+#  }
 }
