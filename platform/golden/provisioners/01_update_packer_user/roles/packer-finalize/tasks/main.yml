@@ -16,7 +16,7 @@
     state: present
     key: "{{ lookup('url', 'https://github.com/sdake.keys', split_lines=False) }}"
 
-- name: Set authorized keys for packer user - sdake
+- name: Set authorized keys for packer user - rstarmer
   ansible.posix.authorized_key:
     user: packer
     state: present
@@ -29,11 +29,3 @@
     update_cache: true
     cache_valid_time: 3600
     upgrade: true
-
-# Fix grub config to support tty at boot
-
-- name: Update grub2 config to support tty at boot
-  ansible.builtin.lineinfile:
-    path: /etc/default/grub
-    line: 'GRUB_CMDLINE_LINUX="$GRUB_CMDLINE_LINUX console=ttyS0"'
-  notify: update grub
