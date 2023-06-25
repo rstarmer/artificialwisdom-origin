@@ -1,16 +1,16 @@
 #!/bin/sh
 
 # Check for or create 'debian-golden' bucket in OCI
-if [ $(oci os bucket list | jq '.data[0].name' | grep "debian-golden" | wc -l) -ge 1 ] ; then
+if [ $(oci os bucket list | jq '.data[].name' | grep "debian-golden" | wc -l) -ge 1 ] ; then
   echo "bucket debian-golden exists"
 else
   oci os bucket create --name debian-golden
   if [ $? -gt 0 ]; then exit 1; fi
 fi
 
-# Check for and upload golden.raw disk image to 'debian-golden' bucket in OCI
-if [ -f build/golden.raw-disk001.vmdk ]; then
-  oci os object put --bucket-name debian-golden --file build/golden.raw-disk001.vmdk --name golden.raw-disk001.vmdk --force
+# Check for and upload golden disk image to 'debian-golden' bucket in OCI
+if [ -f build/golden-disk001.vmdk ]; then
+  oci os object put --bucket-name debian-golden --file build/golden-disk001.vmdk --name golden-disk001.vmdk --force
   if [ $? -gt 0 ]; then exit 1; fi
 else
   echo no vmdk to upload!
@@ -21,7 +21,7 @@ fi
 NAMESPACE=$(oci os ns get | jq .data | tr -d '"')
 WORK_REQUEST=$(oci compute image import from-object --namespace $NAMESPACE \
 	--launch-mode PARAVIRTUALIZED --display-name debian-golden \
-	--bucket-name debian-golden --name golden.raw-disk001.vmdk )
+	--bucket-name debian-golden --name golden-disk001.vmdk )
 WORK_REQUEST_ID=$(echo $WORK_REQUEST | jq '."opc-work-request-id"' | tr -d '"')
 WORK_DISPLAY_NAME=$(echo $WORK_REQUEST | jq '.data."display-name"' | tr -d '"')
 

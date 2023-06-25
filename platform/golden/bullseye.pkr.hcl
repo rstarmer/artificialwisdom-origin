@@ -51,7 +51,7 @@ variable "image_name" {
 source "virtualbox-iso" "base-debian-amd64" {
   # The Debian boot screen is well documented in 5.1.7 The Boot Screen
   # https://www.debian.org/releases/stable/i386/ch05s01.en.html#boot-screen
-  boot_command = ["<down>e<down><down><down><end>priority=critical auto=true preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.preseed_file}<leftCtrlOn>x<leftCtrlOff>"]
+  boot_command = ["<down>e<down><down><down><end>priority=critical auto=true preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.preseed_file} net.ifnames=0 biosdevname=0<leftCtrlOn>x<leftCtrlOff>"]
   guest_os_type        = "Debian11_64"
   guest_additions_mode = "disable"
   cpus                 = "${var.cpus}"
@@ -71,6 +71,7 @@ source "virtualbox-iso" "base-debian-amd64" {
   rtc_time_base        = "UTC"
   shutdown_command     = "sudo -S shutdown -P now"
   ssh_username         = "packer"
+  ssh_password         = "insecure"
   ssh_wait_timeout     = "25m"
   firmware             = "efi"
   keep_registered      = "true"
@@ -87,15 +88,23 @@ build {
   sources = ["source.virtualbox-iso.base-debian-amd64"]
 
   provisioner "file" {
-    source = "provisioners/00_file/artificialwisdom_cloud.tar.gz"
-    destination = "/tmp/artificialwisdom_cloud.tar.gz"
+    source = "provisioners/00_file/artificialwisdom_cloud.tar"
+    destination = "/tmp/artificialwisdom_cloud.tar"
   }
+
 
   provisioner "shell" {
     inline = [
-      "cd / && tar xf /tmp/artificialwisdom_cloud.tar.gz"
+      "cd / && sudo tar xvphf /tmp/artificialwisdom_cloud.tar --owner=root --group=root"
     ]
   }
+
+
+#  provisioner "shell" {
+#    inline = [
+#      "sleep 3600"
+#    ]
+#  }
 
 #  provisioner "ansible" {
 #    playbook_file = "./provisioners/01_update_packer_user/packer.yml"
