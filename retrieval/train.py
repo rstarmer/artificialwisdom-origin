@@ -14,6 +14,7 @@ from rich.progress import (
     TimeElapsedColumn,
     TimeRemainingColumn,
 )
+<<<<<<< HEAD
 from retro_pytorch import RETRO, TrainingWrapper
 from rich.console import Console
 from rich.style import Style
@@ -47,6 +48,10 @@ theme = Theme(
 )
 
 console = Console(theme=theme)
+=======
+
+from retro_pytorch import RETRO, TrainingWrapper
+>>>>>>> 30f28ba (Train a retroformer)
 
 ###
 # instantiate RETRO, fit it into the TrainingWrapper with correct settings
