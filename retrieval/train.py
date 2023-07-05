@@ -15,6 +15,7 @@ from rich.progress import (
     TimeRemainingColumn,
 )
 <<<<<<< HEAD
+<<<<<<< HEAD
 from retro_pytorch import RETRO, TrainingWrapper
 from rich.console import Console
 from rich.style import Style
@@ -52,6 +53,41 @@ console = Console(theme=theme)
 
 from retro_pytorch import RETRO, TrainingWrapper
 >>>>>>> 30f28ba (Train a retroformer)
+=======
+from retro_pytorch import RETRO, TrainingWrapper
+from rich.console import Console
+from rich.style import Style
+from rich.theme import Theme
+
+###
+# Artificial Wisdom™ Triadic Color scheme
+
+COLOR_TEXT = "#00EA8C"
+COLOR_EXTRA = "#EA8C00"
+COLOR_EXTRENUOUS = "#8C00EA"
+
+theme = Theme(
+    {
+        "aw.a": Style.parse(COLOR_TEXT),
+        "aw.b": Style.parse(COLOR_EXTRA),
+        "aw.c": Style.parse(COLOR_EXTRENUOUS),
+        "repr.ellipsis": Style.parse(COLOR_TEXT),
+        "repr.filename": Style.parse(COLOR_TEXT),
+        "repr.path": Style.parse(COLOR_TEXT),
+        "progress.data.speed": Style.parse(COLOR_TEXT),
+        "progress.description": Style.parse(COLOR_TEXT),
+        "progress.download": Style.parse(COLOR_TEXT),
+        "progress.elapsed": Style.parse(COLOR_TEXT),
+        "progress.filesize": Style.parse(COLOR_TEXT),
+        "progress.filesize.total": Style.parse(COLOR_TEXT),
+        "progress.percentage": Style.parse(COLOR_TEXT),
+        "progress.remaining": Style.parse(COLOR_TEXT),
+        "progress.spinner": Style.parse(COLOR_TEXT),
+    }
+)
+
+console = Console(theme=theme)
+>>>>>>> 2cee005 (Colorize the CLI)
 
 ###
 # instantiate RETRO, fit it into the TrainingWrapper with correct settings
@@ -160,8 +196,12 @@ with progress_bar:
                 "model.pt{}".format(epoch),
             )
 <<<<<<< HEAD
+<<<<<<< HEAD
             progress_bar.update(task_id, loss="[aw.a]loss[/aw.a][aw.b]=[/aw.b][aw.a]{:2.2f}[/aw.a]".format(loss))
 =======
             progress_bar.update(task_id, loss="loss={:2.2f}".format(loss))
 >>>>>>> ac9d9fb (Save a pytorch model for each epoch.)
+=======
+            progress_bar.update(task_id, loss="[aw.a]loss[/aw.a][aw.b]=[/aw.b][aw.a]{:2.2f}[/aw.a]".format(loss))
+>>>>>>> 2cee005 (Colorize the CLI)
             progress_bar.advance(task_id)
