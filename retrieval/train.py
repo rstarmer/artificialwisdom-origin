@@ -159,5 +159,9 @@ with progress_bar:
                 },
                 "model.pt{}".format(epoch),
             )
+<<<<<<< HEAD
             progress_bar.update(task_id, loss="[aw.a]loss[/aw.a][aw.b]=[/aw.b][aw.a]{:2.2f}[/aw.a]".format(loss))
+=======
+            progress_bar.update(task_id, loss="loss={:2.2f}".format(loss))
+>>>>>>> ac9d9fb (Save a pytorch model for each epoch.)
             progress_bar.advance(task_id)
